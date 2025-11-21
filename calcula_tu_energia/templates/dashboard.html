@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Calcula tu Energía{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">⚡ Calcula tu Energía</div>
+            <div class="navbar-nav">
+                <span>Hola, {{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="btn btn-secondary">Cerrar Sesión</a>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div class="dashboard-content">
+    <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} fade-in">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="welcome-card glass-card fade-in">
+            <h1>¡Bienvenido!</h1>
+            <p class="user-name">{{ user.username }}</p>
+            <p class="mt-3">Tu panel de control de energía estará disponible próximamente.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="glass-card slide-in">
+                <div class="feature-icon"></div>
+                <h3>Próximamente</h3>
+                <p>Calculadora de consumo de energía</p>
+            </div>
+
+            <div class="glass-card slide-in" style="animation-delay: 0.1s;">
+                <div class="feature-icon"></div>
+                <h3>Próximamente</h3>
+                <p>Estadísticas y gráficos de consumo</p>
+            </div>
+
+            <div class="glass-card slide-in" style="animation-delay: 0.2s;">
+                <div class="feature-icon"></div>
+                <h3>Próximamente</h3>
+                <p>Recomendaciones de ahorro</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

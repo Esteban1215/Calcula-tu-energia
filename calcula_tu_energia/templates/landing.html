@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio - Calcula tu Energía{% endblock %}
+
+{% block content %}
+<div class="landing-hero">
+    <div class="container">
+        <div class="hero-content fade-in">
+            <h1> Calcula tu Energía</h1>
+            <p class="hero-subtitle">
+                Descubre cuánta energía consumes en tu hogar de manera fácil y precisa.
+                Toma el control de tu consumo eléctrico y ahorra dinero.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="{% url 'register' %}" class="btn btn-primary">
+                    Comenzar Ahora
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-secondary">
+                    Iniciar Sesión
+                </a>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card glass-card slide-in">
+                    <div class="feature-icon"></div>
+                    <h3>Análisis Detallado</h3>
+                    <p>Obtén información detallada sobre tu consumo de energía</p>
+                </div>
+
+                <div class="feature-card glass-card slide-in" style="animation-delay: 0.1s;">
+                    <div class="feature-icon"></div>
+                    <h3>Ahorra Dinero</h3>
+                    <p>Identifica oportunidades para reducir tu factura eléctrica</p>
+                </div>
+
+                <div class="feature-card glass-card slide-in" style="animation-delay: 0.2s;">
+                    <div class="feature-icon"></div>
+                    <h3>Cuida el Planeta</h3>
+                    <p>Reduce tu huella de carbono con un consumo más eficiente</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

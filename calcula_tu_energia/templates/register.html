@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro - Calcula tu Energía{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card glass-card fade-in">
+        <div class="auth-header">
+            <h2>Crear Cuenta</h2>
+            <p>Únete a Calcula tu Energía y comienza a ahorrar</p>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="form-label">
+                    Nombre de usuario
+                </label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                <span class="error-message">{{ error }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="form-label">
+                    Correo electrónico
+                </label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                <span class="error-message">{{ error }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                    Contraseña
+                </label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                {% for error in form.password1.errors %}
+                <span class="error-message">{{ error }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                    Confirmar contraseña
+                </label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                {% for error in form.password2.errors %}
+                <span class="error-message">{{ error }}</span>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Crear Cuenta
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
