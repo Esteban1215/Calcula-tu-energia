@@ -20,6 +20,9 @@ def registro(request):
 
 
 def login_usuario(request):
+    if request.user.is_authenticated:
+        return redirect("/calculadora/")
+
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -29,7 +32,7 @@ def login_usuario(request):
 
             if user:
                 login(request, user)
-                return redirect("/")
+                return redirect("/calculadora/")
     else:
         form = AuthenticationForm()
 

@@ -3,17 +3,47 @@
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
-<div class="card p-4 shadow" style="max-width: 450px; margin: auto;">
-    <h3 class="mb-3 text-center">Iniciar Sesión</h3>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 100%; max-width: 400px;">
+        <div class="card-body p-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-primary">Bienvenido</h2>
+                <p class="text-muted">Inicia sesión para continuar</p>
+            </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-primary w-100 mt-2">Ingresar</button>
-    </form>
+            <form method="POST">
+                {% csrf_token %}
 
-    <div class="text-center mt-3">
-        <a href="{% url 'registro' %}">Crear una cuenta</a>
+                {% if form.errors %}
+                <div class="alert alert-danger py-2 small">
+                    Usuario o contraseña incorrectos.
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label fw-semibold text-white">Usuario</label>
+                    <input type="text" name="username" class="form-control form-control-lg" id="id_username"
+                        placeholder="Tu usuario" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_password" class="form-label fw-semibold text-white">Contraseña</label>
+                    <input type="password" name="password" class="form-control form-control-lg" id="id_password"
+                        placeholder="••••••••" required>
+                </div>
+
+                <button class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm fw-bold mb-3">
+                    INGRESAR
+                </button>
+            </form>
+
+            <div class="text-center border-top pt-3">
+                <p class="mb-0 text-muted">¿No tienes cuenta?</p>
+                <a href="{% url 'registro' %}" class="text-decoration-none fw-bold text-primary fs-5">
+                    Registrarse ahora
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

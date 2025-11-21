@@ -4,12 +4,16 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegistroForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirmar Password")
+    email = forms.EmailField(label="Correo electrónico", required=True, help_text="No es necesario un correo real.")
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Repetir contraseña")
 
     class Meta:
         model = User
         fields = ["username", "email", "password"]
+        labels = {
+            "username": "Nombre de usuario",
+        }
 
     def clean(self):
         cleaned_data = super().clean()

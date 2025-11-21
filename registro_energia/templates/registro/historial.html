@@ -3,30 +3,55 @@
 {% block title %}Historial{% endblock %}
 
 {% block content %}
-<h2>Historial de Cálculos</h2>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg border-0 rounded-4" style="width: 100%; max-width: 800px;">
+        <div class="card-body p-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-primary">Historial de Cálculos</h2>
+                <p class="text-muted">Tus registros anteriores</p>
+            </div>
 
-<table class="table table-striped mt-3">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Consumo (kWh)</th>
-            <th>Rango</th>
-            <th>Total ($)</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for r in registros %}
-        <tr>
-            <td>{{ r.fecha|date:"d/m/Y H:i" }}</td>
-            <td>{{ r.consumo_kwh }}</td>
-            <td>{{ r.rango }}</td>
-            <td>${{ r.total }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4" class="text-center text-muted">No hay registros todavía</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            <div class="table-responsive">
+                <table class="table table-hover table-borderless align-middle text-white">
+                    <thead class="border-bottom border-secondary">
+                        <tr>
+                            <th class="py-3">Fecha</th>
+                            <th class="py-3">Consumo (kWh)</th>
+                            <th class="py-3">Rango</th>
+                            <th class="py-3">Total ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in registros %}
+                        <tr class="border-bottom border-secondary" style="background-color: transparent;">
+                            <td class="py-3">{{ r.fecha|date:"d/m/Y H:i" }}</td>
+                            <td class="py-3">{{ r.consumo_kwh }}</td>
+                            <td class="py-3">{{ r.rango }}</td>
+                            <td class="py-3 fw-bold text-success">${{ r.total }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">No hay registros todavía</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom table styles for dark theme */
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: var(--text-primary);
+        --bs-table-hover-bg: rgba(255, 255, 255, 0.05);
+        --bs-table-hover-color: var(--text-primary);
+    }
+
+    tbody tr:last-child {
+        border-bottom: none !important;
+    }
+</style>
 {% endblock %}

@@ -6,3 +6,14 @@ class CalculadoraForm(forms.Form):
         choices=[("semana", "Semana"), ("mes", "Mes")],
         label="Seleccione un rango"
     )
+    mes = forms.ChoiceField(
+        choices=[
+            ("", "Seleccione un mes"),
+            ("Enero", "Enero"), ("Febrero", "Febrero"), ("Marzo", "Marzo"),
+            ("Abril", "Abril"), ("Mayo", "Mayo"), ("Junio", "Junio"),
+            ("Julio", "Julio"), ("Agosto", "Agosto"), ("Septiembre", "Septiembre"),
+            ("Octubre", "Octubre"), ("Noviembre", "Noviembre"), ("Diciembre", "Diciembre")
+        ],
+        label="Mes",
+        required=False
+    )

@@ -19,9 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('paginas.urls')),
     path('calculadora/', include('calculadora.urls')),
-    path('registro/', include('registro_energia.urls')),
+    path('historial/', include('registro_energia.urls')),
     path('usuarios/', include('usuarios.urls')),
+    path('', include('usuarios.urls')), # Login as default (catch-all)
 ]
 

@@ -3,21 +3,97 @@
 {% block title %}Calculadora{% endblock %}
 
 {% block content %}
-<div class="card shadow p-4">
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+                <h2 class="mb-0 fw-bold">Calculadora de Energía</h2>
+            </div>
+            <div class="card-body p-5">
+                <p class="text-muted text-center mb-4">Ingresa tu consumo para estimar el costo.</p>
 
-    <h2 class="mb-4">Calculadora de Energía</h2>
+                <form method="POST">
+                    {% csrf_token %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-primary mt-2">Calcular</button>
-    </form>
+                    <div class="mb-3">
+                        <label for="id_consumo_kwh" class="form-label fw-semibold text-white">Consumo (kWh)</label>
+                        {{ form.consumo_kwh }}
+                    </div>
 
-    {% if resultado %}
-        <div class="alert alert-success mt-4">
-            <h4>Resultado:</h4>
-            <p>Gasto aproximado: <strong>${{ resultado }}</strong></p>
+                    <div class="mb-4">
+                        <label for="id_rango" class="form-label fw-semibold text-white">Rango de tiempo</label>
+                        {{ form.rango }}
+                    </div>
+
+                    <div class="mb-4" id="mes-container" style="display: none;">
+                        <label for="id_mes" class="form-label fw-semibold text-white">Mes</label>
+                        {{ form.mes }}
+                    </div>
+
+                    <button class="btn btn-success w-100 btn-lg rounded-pill shadow-sm fw-bold">
+                        Calcular Costo
+                    </button>
+                </form>
+
+                {% if resultado %}
+                <div class="alert alert-success mt-4 text-center shadow-sm border-0" role="alert">
+                    <h4 class="alert-heading fw-bold">Resultado Estimado</h4>
+                    <hr>
+                    <p class="display-4 fw-bold text-success mb-0">${{ resultado }}</p>
+                    <p class="mb-0 text-muted small">Pesos</p>
+                </div>
+                {% endif %}
+            </div>
         </div>
-    {% endif %}
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rangoSelect = document.getElementById('id_rango');
+        const mesContainer = document.getElementById('mes-container');
+
+        function toggleMes() {
+            if (rangoSelect.value === 'mes') {
+                mesContainer.style.display = 'block';
+            } else {
+                mesContainer.style.display = 'none';
+            }
+        }
+
+        if (rangoSelect) {
+            rangoSelect.addEventListener('change', toggleMes);
+            toggleMes(); // Run on load
+        }
+    });
+</script>
+
+<style>
+    /* Quick fix to style django form fields if they don't have classes */
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 1.1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+        border-color: #6a11cb;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        color: white;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Fix select dropdown options on dark background */
+    select option {
+        background-color: #302b63;
+        color: white;
+    }
+</style>
 {% endblock %}

@@ -13,6 +13,7 @@ def calcular(request):
         if form.is_valid():
             consumo = form.cleaned_data["consumo_kwh"]
             rango = form.cleaned_data["rango"]
+            mes = form.cleaned_data.get("mes")
 
             # cálculo
             total = consumo * VALOR_KWH
@@ -21,6 +22,7 @@ def calcular(request):
             RegistroEnergia.objects.create(
                 consumo_kwh=consumo,
                 rango=rango,
+                mes=mes,
                 total=total,
                 fecha=datetime.now()
             )
