@@ -14,6 +14,7 @@ def calcular(request):
             consumo = form.cleaned_data["consumo_kwh"]
             rango = form.cleaned_data["rango"]
             mes = form.cleaned_data.get("mes")
+            semana = form.cleaned_data.get("semana")
 
             # cálculo
             total = consumo * VALOR_KWH
@@ -23,6 +24,7 @@ def calcular(request):
                 consumo_kwh=consumo,
                 rango=rango,
                 mes=mes,
+                semana=semana,
                 total=total,
                 fecha=datetime.now()
             )

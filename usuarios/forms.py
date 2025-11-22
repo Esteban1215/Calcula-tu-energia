@@ -4,7 +4,13 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegistroForm(forms.ModelForm):
-    email = forms.EmailField(label="Correo electrónico", required=True, help_text="No es necesario un correo real.")
+    username = forms.CharField(
+        label="Nombre de usuario", 
+        min_length=8, 
+        max_length=12, 
+        help_text="El nombre de usuario debe tener entre 8 y 12 caracteres."
+    )
+    email = forms.EmailField(label="Correo electrónico", required=True)
     password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Repetir contraseña")
 

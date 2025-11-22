@@ -9,6 +9,40 @@
             <div class="text-center mb-4">
                 <h2 class="fw-bold text-primary">Historial de Cálculos</h2>
                 <p class="text-muted">Tus registros anteriores</p>
+                <form action="{% url 'limpiar_historial' %}" method="POST"
+                    onsubmit="return confirm('¿Estás seguro de que quieres borrar todo el historial?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm shadow-sm mt-2">
+                        🗑️ Limpiar Historial
+                    </button>
+                </form>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-success text-white mb-3 shadow-sm border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Costo Total</h5>
+                            <p class="card-text fs-4 fw-bold">${{ total_general|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-info text-white mb-3 shadow-sm border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Costo Semanal</h5>
+                            <p class="card-text fs-4 fw-bold">${{ total_semana|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-warning text-dark mb-3 shadow-sm border-0">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Costo Mensual</h5>
+                            <p class="card-text fs-4 fw-bold">${{ total_mes|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="table-responsive">

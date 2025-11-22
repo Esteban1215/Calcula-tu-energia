@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Gráficas de Consumo{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Toggle Button -->
+    <div class="d-flex justify-content-center mb-4">
+        <button id="toggleGraphBtn" class="btn btn-primary btn-lg rounded-pill shadow-sm px-5">Semana</button>
+    </div>
+
+    <!-- Monthly Chart Section -->
+    <div id="monthlyChartSection" class="row justify-content-center mb-5">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-lg border-0 rounded-4"
+                style="background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px);">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold text-white mb-3">Análisis Mensual</h2>
+                        <p class="text-white-50">Consumo por Meses</p>
+                    </div>
+
+                    <div class="chart-container" style="position: relative; height:50vh; width:100%">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Chart Section -->
+    <div id="weeklyChartSection" class="row justify-content-center" style="display: none;">
+        <div class="col-12 col-lg-10">
+            <div class="card shadow-lg border-0 rounded-4"
+                style="background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px);">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold text-white mb-3">Análisis Semanal</h2>
+                        <p class="text-white-50">Consumo por Semanas</p>
+                    </div>
+
+                    <div class="chart-container" style="position: relative; height:50vh; width:100%">
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ labels_mes|json_script:"labels-mes" }}
+{{ consumo_mes|json_script:"consumo-mes" }}
+{{ costo_mes|json_script:"costo-mes" }}
+
+{{ labels_semana|json_script:"labels-semana" }}
+{{ consumo_semana|json_script:"consumo-semana" }}
+{{ costo_semana|json_script:"costo-semana" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Toggle Logic
+        const toggleBtn = document.getElementById('toggleGraphBtn');
+        const monthlySection = document.getElementById('monthlyChartSection');
+        const weeklySection = document.getElementById('weeklyChartSection');
+
+        toggleBtn.addEventListener('click', function () {
+            if (monthlySection.style.display !== 'none') {
+                // Switch to Weekly
+                monthlySection.style.display = 'none';
+                weeklySection.style.display = 'flex';
+                toggleBtn.textContent = 'Mes';
+            } else {
+                // Switch to Monthly
+                monthlySection.style.display = 'flex';
+                weeklySection.style.display = 'none';
+                toggleBtn.textContent = 'Semana';
+            }
+        });
+
+        // Helper function to create chart config
+        function createChartConfig(labels, consumoData, costoData, ctx) {
+            // Gradients
+            const gradientConsumo = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientConsumo.addColorStop(0, 'rgba(54, 162, 235, 0.8)');
+            gradientConsumo.addColorStop(1, 'rgba(54, 162, 235, 0.2)');
+
+            const gradientCosto = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientCosto.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
+            gradientCosto.addColorStop(1, 'rgba(255, 99, 132, 0.2)');
+
+            return {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Consumo (kWh)',
+                            data: consumoData,
+                            backgroundColor: gradientConsumo,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            barPercentage: 0.6,
+                            categoryPercentage: 0.8
+                        },
+                        {
+                            label: 'Costo ($)',
+                            data: costoData,
+                            backgroundColor: gradientCosto,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            barPercentage: 0.6,
+                            categoryPercentage: 0.8,
+                            hidden: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff',
+                                font: { size: 14, family: "'Inter', sans-serif" }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 10,
+                            cornerRadius: 8,
+                            displayColors: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)', drawBorder: false },
+                            ticks: { color: '#fff', font: { family: "'Inter', sans-serif" } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#fff', font: { family: "'Inter', sans-serif" } }
+                        }
+                    },
+                    interaction: { mode: 'index', intersect: false },
+                    animation: { duration: 1500, easing: 'easeOutQuart' }
+                }
+            };
+        }
+
+        // Monthly Chart
+        const ctxMonth = document.getElementById('monthlyChart').getContext('2d');
+        const labelsMes = JSON.parse(document.getElementById('labels-mes').textContent);
+        const consumoMes = JSON.parse(document.getElementById('consumo-mes').textContent);
+        const costoMes = JSON.parse(document.getElementById('costo-mes').textContent);
+
+        if (labelsMes.length > 0) {
+            new Chart(ctxMonth, createChartConfig(labelsMes, consumoMes, costoMes, ctxMonth));
+        } else {
+            // Optional: Show "No data" message or empty chart
+            new Chart(ctxMonth, createChartConfig([], [], [], ctxMonth));
+        }
+
+        // Weekly Chart
+        const ctxWeek = document.getElementById('weeklyChart').getContext('2d');
+        const labelsSemana = JSON.parse(document.getElementById('labels-semana').textContent);
+        const consumoSemana = JSON.parse(document.getElementById('consumo-semana').textContent);
+        const costoSemana = JSON.parse(document.getElementById('costo-semana').textContent);
+
+        if (labelsSemana.length > 0) {
+            new Chart(ctxWeek, createChartConfig(labelsSemana, consumoSemana, costoSemana, ctxWeek));
+        } else {
+            new Chart(ctxWeek, createChartConfig([], [], [], ctxWeek));
+        }
+    });
+</script>
+{% endblock %}

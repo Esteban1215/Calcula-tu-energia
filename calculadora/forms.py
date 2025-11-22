@@ -17,3 +17,14 @@ class CalculadoraForm(forms.Form):
         label="Mes",
         required=False
     )
+    semana = forms.ChoiceField(
+        choices=[
+            ("", "Seleccione una semana"),
+            ("Semana 1", "Semana 1"),
+            ("Semana 2", "Semana 2"),
+            ("Semana 3", "Semana 3"),
+            ("Semana 4", "Semana 4")
+        ],
+        label="Semana",
+        required=False
+    )

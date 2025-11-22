@@ -15,22 +15,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-primary);
     position: relative;
-    /* Ensure body is relative for absolute positioning if needed, though canvas is fixed */
-}
-
-#particles-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    /* Behind everything */
-    pointer-events: none;
-    /* Let clicks pass through if needed, but we want mouse interaction so maybe not? 
-                            Wait, the script uses window mousemove, so pointer-events: none on canvas is fine 
-                            to allow clicking elements behind it? No, elements are IN FRONT of it. 
-                            So pointer-events: none is good to ensure it doesn't block clicks on the page content. */
 }
 
 /* Navbar overrides */

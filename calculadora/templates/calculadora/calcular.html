@@ -30,6 +30,11 @@
                         {{ form.mes }}
                     </div>
 
+                    <div class="mb-4" id="semana-container" style="display: none;">
+                        <label for="id_semana" class="form-label fw-semibold text-white">Semana</label>
+                        {{ form.semana }}
+                    </div>
+
                     <button class="btn btn-success w-100 btn-lg rounded-pill shadow-sm fw-bold">
                         Calcular Costo
                     </button>
@@ -52,18 +57,24 @@
     document.addEventListener('DOMContentLoaded', function () {
         const rangoSelect = document.getElementById('id_rango');
         const mesContainer = document.getElementById('mes-container');
+        const semanaContainer = document.getElementById('semana-container');
 
-        function toggleMes() {
+        function toggleFields() {
             if (rangoSelect.value === 'mes') {
                 mesContainer.style.display = 'block';
+                semanaContainer.style.display = 'none';
+            } else if (rangoSelect.value === 'semana') {
+                mesContainer.style.display = 'none';
+                semanaContainer.style.display = 'block';
             } else {
                 mesContainer.style.display = 'none';
+                semanaContainer.style.display = 'none';
             }
         }
 
         if (rangoSelect) {
-            rangoSelect.addEventListener('change', toggleMes);
-            toggleMes(); // Run on load
+            rangoSelect.addEventListener('change', toggleFields);
+            toggleFields(); // Run on load
         }
     });
 </script>
