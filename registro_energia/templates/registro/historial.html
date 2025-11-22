@@ -20,7 +20,7 @@
 
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <div class="card bg-success text-white mb-3 shadow-sm border-0">
+                    <div class="card bg-purple text-white mb-3 shadow-sm border-0">
                         <div class="card-body text-center">
                             <h5 class="card-title">Costo Total</h5>
                             <p class="card-text fs-4 fw-bold">${{ total_general|floatformat:2 }}</p>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-info text-white mb-3 shadow-sm border-0">
+                    <div class="card bg-purple text-white mb-3 shadow-sm border-0">
                         <div class="card-body text-center">
                             <h5 class="card-title">Costo Semanal</h5>
                             <p class="card-text fs-4 fw-bold">${{ total_semana|floatformat:2 }}</p>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card bg-warning text-dark mb-3 shadow-sm border-0">
+                    <div class="card bg-purple text-white mb-3 shadow-sm border-0">
                         <div class="card-body text-center">
                             <h5 class="card-title">Costo Mensual</h5>
                             <p class="card-text fs-4 fw-bold">${{ total_mes|floatformat:2 }}</p>
@@ -60,7 +60,15 @@
                         <tr class="border-bottom border-secondary" style="background-color: transparent;">
                             <td class="py-3">{{ r.fecha|date:"d/m/Y H:i" }}</td>
                             <td class="py-3">{{ r.consumo_kwh }}</td>
-                            <td class="py-3">{{ r.rango }}</td>
+                            <td class="py-3">
+                                {% if r.rango == 'mes' %}
+                                {{ r.mes }}
+                                {% elif r.rango == 'semana' %}
+                                {{ r.semana }}
+                                {% else %}
+                                {{ r.rango }}
+                                {% endif %}
+                            </td>
                             <td class="py-3 fw-bold text-success">${{ r.total }}</td>
                         </tr>
                         {% empty %}
@@ -86,6 +94,13 @@
 
     tbody tr:last-child {
         border-bottom: none !important;
+    }
+
+    .bg-purple {
+        background-color: #6a11cb !important;
+        /* Purple color */
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%) !important;
+        /* Optional gradient */
     }
 </style>
 {% endblock %}
